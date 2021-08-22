@@ -1,0 +1,40 @@
+data: 
+  dataset :
+    split : 0.0
+    data_type : 'img'
+    train :  
+      interface_type : 'csv'
+      interface_path : './'
+      data_path : './'
+    valid : 
+      interface_type : 'csv'
+      interface_path : './'
+      data_path : './'
+
+
+[model]
+
+model_name=''
+model_description=''
+model_type=''
+problem_type=''
+[model_params]
+input_shape=[]
+
+
+[hyperparameters]
+
+training_batch_size=8
+validation_batch_size=8
+epochs=100
+steps_per_epoch=None
+learning_rate=0.001
+metrics=['acc']
+early_stop_patience=2
+dropout_ratio=0.2
+
+[config_params]
+
+logs_path='./'
+model_image_path='./'
+checkpoint_path='./'
