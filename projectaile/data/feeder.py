@@ -1,10 +1,4 @@
-import os
-import librosa
-import numpy as np
-import pandas as pd
-
 from .loaders import loaders
-from ..utils.data_utils import extractors
 
 '''
     FEEDER : FEEDER class for getting batches from the loader
@@ -19,11 +13,15 @@ class FEEDER:
         if not loader:
             loader = self.get_loader(self.config.data.data_type)
 		
-        self.loader = loader(self.config)
+        if loader:
+            self.loader = loader(self.config)
+            self.loader.get_data_info()
+        else:
+            raise Exception('No Loader Found For {self.config.data.data_type}!, Please Implement One.')
+            
         self.train_iterator = 0
         self.valid_iterator = 0
         
-        self.loader.get_dset_info()
 
     '''
     get_loader : returns one of default loaders based on the input type in config

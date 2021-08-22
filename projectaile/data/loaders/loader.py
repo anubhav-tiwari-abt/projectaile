@@ -1,13 +1,17 @@
+import numpy as np
+from functools import wraps
+
 class LOADER:
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, loader_function):
+        self._loader = loader_function
     
     '''
     get_data_info : extracts base information about the data for generating batches and using
                     it for getting batches of data from the feeders.
+                
     '''
     # Getting indices and features and targets for the dataset.
-    def get_dset_info(self):
+    def get_data_info(self):
         if self.data.split > 0.0:
             interface_type = self.config.dataset.train.interface_type
         else:
@@ -31,7 +35,10 @@ class LOADER:
         if self.config.data_type == 'structured':
             return feature, target
         else:
-            raise Exception('Not Implemented!, Implement a loader function for {self.config.data_type} data type.')
+            if self._loader:
+                return self._loader(feature, target)
+            else:
+                raise Exception('Not Implemented!, Implement a loader function for {self.config.data_type} data type.')
     
         
     def load_batch(self, mode='train', itertator=0, batch_size=1, shuffle=False):
