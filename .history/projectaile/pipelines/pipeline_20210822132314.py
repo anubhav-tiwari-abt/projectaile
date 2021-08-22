@@ -38,8 +38,9 @@ class PIPELINE:
             self.state = {}
             
         def __call__(self, input):
-            output = self.callable(input)
-            return output
+            self.state[input] = self.
+            self.callable(input)
+            return
         
         
     def component(self, callable_component):

@@ -40,8 +40,8 @@ class FEEDER:
         iterator : the iterator index for either train or valid batch (step)
         batch_size : the number of samples to load
     '''
-    def get_batch(self, mode='train', iterator=0, batch_size=1, shuffle=False):
-        return self.loader.load_batch(mode, iterator, batch_size, shuffle)
+    def get_batch(self, mode='train', iterator=0, batch_size=1):
+        return self.loader.load_batch(mode, iterator, batch_size)
 	
     '''
         get_train_batch : get next training batch

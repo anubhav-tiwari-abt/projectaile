@@ -34,26 +34,41 @@ class FEEDER:
         else:
             print('No Default Loader Found For Given Data Type! Please Implement A Custom Data Loader Or Look At The Existing Loaders.')
             return None
+		
+    '''
+        get next set of indices for the loader
+
+        iterator : the iterator index for either train or valid batch (step)
+        batch_size : the number of samples to load
+    '''
+    def next(self, mode='train', iterator=None, batch_size=None):
+        features, targets = self.loader.get_batch_info(mode, iterator, batch_size)
+        iterator += 1
+        return features, targets, iterator 
 
     '''
         get_batch : get the next batch of data and apply preprocessing and augmentations steps
         iterator : the iterator index for either train or valid batch (step)
         batch_size : the number of samples to load
     '''
-    def get_batch(self, mode='train', iterator=0, batch_size=1, shuffle=False):
-        return self.loader.load_batch(mode, iterator, batch_size, shuffle)
+    def get_batch(self, mode='train', iterator=0, batch_size=1):
+        x, y, iterator = self.next(mode, iterator, batch_size)
+
+        if iterator > len(indices)//batch_size:
+            iterator = 0
+
+        return x, y, iterator
 	
     '''
         get_train_batch : get next training batch
     '''
     def get_train_batch(self):
-        shuffle = self.train_iterator == 0
-        
+        if self.train_iterator == 0:
+            np.random.shuffle(self.train_indices)
+
         x, y, self.train_iterator = self.get_batch(
-            'train',
             self.train_iterator,
-            self.config.hyperparameters.train_batch_size,
-            shuffle
+            self.config.hyperparameters.train_batch_size
         )
 
         return x, y
@@ -62,13 +77,12 @@ class FEEDER:
         get_valid_batch : get next validation batch
     '''
     def get_valid_batch(self):
-        shuffle = self.valid_iterator == 0
-        
+        if self.valid_iterator == 0:
+            np.random.shuffle(self.valid_indices)
+
         x, y, self.valid_iterator = self.get_batch(
-            'valid',
             self.valid_iterator, 
-            self.config.hyperparameters.valid_batch_size,
-            shuffle
+            self.config.hyperparameters.valid_batch_size
         )
 
         return x, y

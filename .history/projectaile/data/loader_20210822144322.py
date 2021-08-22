@@ -13,6 +13,7 @@ class LOADER:
         else:
             interface_type = self.config.dataset.interface_type
             
+            
         if interface_type in extractors.keys():
             train_features, valid_features, train_targets, valid_targets = extractors[interface_type](self.config)
         else:
@@ -59,7 +60,7 @@ class LOADER:
                 y.append(target)
             except Exception as e:
                 print(e)
-                return None, None, iterator
+                return None, None
         
         iterator += 1
         

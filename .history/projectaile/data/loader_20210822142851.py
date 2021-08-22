@@ -13,6 +13,7 @@ class LOADER:
         else:
             interface_type = self.config.dataset.interface_type
             
+            
         if interface_type in extractors.keys():
             train_features, valid_features, train_targets, valid_targets = extractors[interface_type](self.config)
         else:
@@ -25,16 +26,11 @@ class LOADER:
         self.valid_features = valid_features
         self.valid_targets = valid_targets
         self.valid_indices = np.arange(0, len(valid_features))
-    
-    
-    def load(self, feature, target):
-        if self.config.data_type == 'structured':
-            return feature, target
-        else:
-            raise Exception('Not Implemented!, Implement a loader function for {self.config.data_type} data type.')
-    
         
-    def load_batch(self, mode='train', itertator=0, batch_size=1, shuffle=False):
+    def load(self, feature, target):
+        return Exception
+        
+    def load_batch(self, mode='train', itertator=0, batch_size=1):
         if mode == 'train':
             indices = self.train_indices
             features = self.train_features
@@ -44,26 +40,14 @@ class LOADER:
             indices = self.valid_indices
             features = self.valid_features
             targets = self.valid_targets
-            
-        if shuffle:
-            indices = np.random.shuffle(indices)
         
         indices = indices[iterator*batch_size:(iterator+1)*batch_size]
         
         x, y = [], []
         
         for idx in indices:
-            try:
-                feature, target = self.load(features[idx], targets[idx])
-                x.append(feature)
-                y.append(target)
-            except Exception as e:
-                print(e)
-                return None, None, iterator
-        
-        iterator += 1
-        
-        if iterator > len(indices)//batch_size:
-            iterator = 0
+            feature, target = self.load(features[idx], targets[idx])
+            x.append(feature)
+            y.append(target)
             
-        return np.array(x), np.array(y), iterator
+        return np.array(x), np.array(y)
