@@ -1,6 +1,5 @@
 import yaml
 from yaml import Loader, Dumper
-from configparser import ConfigParser
 
 class DICTIONARY(dict):
     def __init__(self, **response):

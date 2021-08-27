@@ -13,8 +13,10 @@ class FEEDER:
         if not loader:
             loader = self.get_loader(self.config.data.data_type)
 		
+        print('Loader Found : ', loader)
         if loader:
-            self.loader = loader(self.config)
+            self.loader = loader
+            self.loader.initialize(self.config)
             self.loader.get_data_info()
         else:
             raise Exception('No Loader Found For {self.config.data.data_type}!, Please Implement One.')

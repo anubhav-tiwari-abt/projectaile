@@ -10,13 +10,17 @@ class LOADER:
                     it for getting batches of data from the feeders.
                 
     '''
+    
+    def initialize(self, config):
+        self._config = config
+    
     # Getting indices and features and targets for the dataset.
     def get_data_info(self):
-        if self.data.split > 0.0:
-            interface_type = self.config.dataset.train.interface_type
+        if self._config.data.split == 0.0:
+            interface_type = self._config.data.dataset.train.interface_type
         else:
-            interface_type = self.config.dataset.interface_type
-            
+            interface_type = self._config.data.dataset.interface_type
+                
         if interface_type in extractors.keys():
             train_features, valid_features, train_targets, valid_targets = extractors[interface_type](self.config)
         else:
@@ -32,13 +36,13 @@ class LOADER:
     
     
     def load(self, feature, target):
-        if self.config.data_type == 'structured':
+        if self._config.data_type == 'structured':
             return feature, target
         else:
             if self._loader:
                 return self._loader(feature, target)
             else:
-                raise Exception('Not Implemented!, Implement a loader function for {self.config.data_type} data type.')
+                raise Exception('Not Implemented!, Implement a loader function for {self._config.data_type} data type.')
     
         
     def load_batch(self, mode='train', itertator=0, batch_size=1, shuffle=False):

@@ -1,7 +1,13 @@
 data: 
+  split : 0.0
+  data_type : 'image'
+  features :
+    type : 'file'
+    vals : ['*.jpg', '*.jpeg', '*.png']
+  targets : 
+    type : 'column' 
+    vals : 'labels'
   dataset :
-    split : 0.0
-    data_type : 'img'
     train :  
       interface_type : 'csv'
       interface_path : './'
