@@ -42,6 +42,9 @@ class LOGGER:
         python, tensorflow, pytorch, sklearn etc.
     '''
     def initialize(self):
+        self.console = Console(record=True)
+        self.exception_handler = EXCEPTION_HANDLER()
+        
         self.log_info('Initializing Loggers and Handlers...')
         rich_exception_handler = RichHandler(rich_tracebacks=True, markup=True)
 
@@ -96,9 +99,6 @@ class LOGGER:
                     )
             logger.handlers = [rich_exception_handler]
             self.log_info(f'Setting handler for {logger_name} successful.')        
-    
-        self.console = Console(record=True)
-        self.exception_handler = EXCEPTION_HANDLER()
 
     '''
         prints a log to the terminal and saves text to the logs file.

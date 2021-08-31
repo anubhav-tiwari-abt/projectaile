@@ -1,1 +1,7 @@
-[15:42:45] None                                                                                             logger.py:59
+[16:32:54] INFO : Initializing Loggers and Handlers...                                                     logger.py:111
+[16:32:57] WARNING : Tensorflow not installed or tf_logging not found.                Exception Message :  logger.py:111
+           No module named 'pytorch'                                                                                    
+           INFO : Setting handler for python_logging.                                                      logger.py:111
+           INFO : Setting handler for python_logging successful.                                           logger.py:111
+           INFO : Setting handler for tensorflow.                                                          logger.py:111
+           INFO : Setting handler for tensorflow successful.                                               logger.py:111
