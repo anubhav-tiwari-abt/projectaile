@@ -1,4 +1,4 @@
-from .loaders import loaders
+from projectaile.data.loaders import loaders
 
 '''
     FEEDER : FEEDER class for getting batches from the loader

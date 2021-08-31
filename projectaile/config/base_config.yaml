@@ -1,23 +1,48 @@
 data: 
   split : 0.0
   data_type : 'image'
-  features :
-    type : 'file'
-    vals : ['*.jpg', '*.jpeg', '*.png']
-  targets : 
-    type : 'column' 
-    vals : 'labels'
   dataset :
-    train :  
+    train : 
       interface_type : 'csv'
-      interface_path : './'
-      data_path : './'
-    valid : 
+      interface_path : './train.csv'
+      data_path : './train'
+      features : 
+        interface_type : 'column'
+        interface_val : 'image_path'
+        load_type : ['jpg', 'png', 'jpeg']
+      targets :
+        interface_type : 'column'
+        interface_val : '[image_path]_mask'
+        load_type : ['jpg', 'png', 'jpeg']
+    valid :
       interface_type : 'csv'
-      interface_path : './'
-      data_path : './'
-  preprocesses : []
-  augmentations : []
+      interface_path : './valid.csv'
+      data_path : './valid'
+  preprocesses : [{
+    type : 'reshape',
+    params : {
+      size : [256, 256],
+      keep_ar : false
+    }
+  },{
+    type : 'normalize',
+    params : {
+      mode : 'z_norm'
+    }
+  }]
+  augmentations : [{
+    type : 'rotate',
+    params : {
+      axis : 'xyz',
+      max_angle : 30
+    }
+  },{
+    type : 'crop',
+    params : {
+      mode : 'random',
+      min_size : [64, 64]
+    }
+  }]
 
 
 model : 

@@ -5,23 +5,20 @@
 
 # imports
 from functools import wraps
-from projectaile.loggers import LOGGER
-from projectaile.savers import SAVER
+from projectaile.utils import BASE
 
 '''
     Pipeline Base Class. Create a pipeline with callables that are called and
     intermediate states can be logged or altered.
 '''
-class PIPELINE:
+class PIPELINE(BASE):
     def __init__(self, from_config='', config=None, pipeline_type='data_pipeline', target_device='cpu'):
         if config:
             self._create_pipeline_from_config_(config)
 
-        self.components = {}
+        self.components = []
         self.states = {}
         self.pipeline_type = pipeline_type
-        self.logger = LOGGER()
-        self.saver = SAVER()
         self.connection_channel = None
         self.threads = None
         self.distributed = False
@@ -32,11 +29,12 @@ class PIPELINE:
             self.callable = callable
             self.__pipeline_def__ =  pipeline_def
             self.__pipeline_order__ = pipeline_order
-            self.__execution_state__ = 'idle'
+            self.__execution_state__ = 0
             self.__loop_iter_count__ = 0
             self.__target_device__ = target_device
             self.state = {}
             
+        # TODO : Update to use multi-threading and distributed processing support
         def __call__(self, input):
             output = self.callable(input)
             return output

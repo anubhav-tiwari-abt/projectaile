@@ -1,3 +1,3 @@
 from .feeder import FEEDER
-from .loaders import LOADER, loaders
-
+from .loader import LOADER
+from .loaders import loaders

@@ -1,4 +1,4 @@
-from .loader import LOADER
+from projectaile.data.loader import LOADER
 
 @LOADER
 def image_loader(img_path):

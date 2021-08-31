@@ -1,7 +1,8 @@
 import numpy as np
 from functools import wraps
+from projectaile.utils.base_class import BASE
 
-class LOADER:
+class LOADER(BASE):
     def __init__(self, loader_function):
         self._loader = loader_function
     
@@ -42,7 +43,7 @@ class LOADER:
             if self._loader:
                 return self._loader(feature, target)
             else:
-                raise Exception('Not Implemented!, Implement a loader function for {self._config.data_type} data type.')
+                raise self.raise_exception('no_loader')
     
         
     def load_batch(self, mode='train', itertator=0, batch_size=1, shuffle=False):

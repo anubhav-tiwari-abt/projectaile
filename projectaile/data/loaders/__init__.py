@@ -1,4 +1,3 @@
-from .loader import LOADER
 from .image_loader import image_loader
 # from .audio_loader import audio_loader
 # from .text_loader import text_loader

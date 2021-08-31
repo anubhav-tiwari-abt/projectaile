@@ -1,3 +1,4 @@
+import json
 import yaml
 from yaml import Loader, Dumper
 
@@ -28,6 +29,14 @@ class DICTIONARY(dict):
     
     def keys(self):
         return list(self.__dict__.keys())
+    
+    def to_yaml(self):
+        yaml_dict = {}
+        for k, v in self.__dict__.items():
+            if isinstance(v, DICTIONARY):
+                v = v.to_yaml()
+            yaml_dict[k] = v
+        return yaml_dict
 
 
 class CONFIG(DICTIONARY):
@@ -40,3 +49,10 @@ class CONFIG(DICTIONARY):
             config[key] = val
 
         super(CONFIG, self).__init__(**config)
+        
+    def save(self, path):
+        if path.endswith('\r.*'):
+            with open(path, 'w') as f:
+                yaml_obj = self.to_yaml()
+                Dumper.ignore_aliases = lambda *args : True
+                yaml.dump(yaml_obj, f, Dumper=Dumper)
