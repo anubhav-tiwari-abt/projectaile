@@ -2,3 +2,6 @@
 class VALIDATOR:
     def __init__(self):
         pass
+    
+    def validate(self, config, source):
+        return True, []

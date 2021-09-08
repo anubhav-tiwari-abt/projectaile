@@ -4,7 +4,7 @@ from projectaile.pipelines import PIPELINE
 
 class ENGINE(BASE):
     def __init__(self, config: CONFIG, model_pipeline: PIPELINE, data_pipeline: PIPELINE):
-        self.config = config
+        self._config = config
         self.data_pipeline = data_pipeline
         self.model_pipeline = model_pipeline
         

@@ -65,6 +65,8 @@ hyperparameters :
   dropout_ratio : 0.2
 
 config_params : 
-  logs_path : './'
-  model_image_path : './'
-  checkpoint_path : './'
+  logger :
+    logs_path : 'test_logs'
+    log_level : 'DEBUG'
+  model_image_path : './model_images'
+  checkpoint_path : './checkpoints'

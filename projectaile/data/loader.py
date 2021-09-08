@@ -1,20 +1,20 @@
 import numpy as np
 from functools import wraps
 from projectaile.utils.base_class import BASE
+from projectaile.data.extractors import extractors
 
 class LOADER(BASE):
     def __init__(self, loader_function):
         self._loader = loader_function
-    
+        
+    def init_loader(self):
+        super(LOADER, self).__init__('loader')
+        
     '''
     get_data_info : extracts base information about the data for generating batches and using
                     it for getting batches of data from the feeders.
                 
-    '''
-    
-    def initialize(self, config):
-        self._config = config
-    
+    '''    
     # Getting indices and features and targets for the dataset.
     def get_data_info(self):
         if self._config.data.split == 0.0:
@@ -23,9 +23,10 @@ class LOADER(BASE):
             interface_type = self._config.data.dataset.interface_type
                 
         if interface_type in extractors.keys():
-            train_features, valid_features, train_targets, valid_targets = extractors[interface_type](self.config)
+            train_features, valid_features, train_targets, valid_targets = extractors[interface_type](self._config)
         else:
-            print(f'Could not find a suitable extractor for the interface type : {interface_type}')
+            params = {'interface_type': interface_type}
+            self.exception('no_extractor', params)
             exit(0)
 
         self.train_features = train_features
@@ -37,13 +38,14 @@ class LOADER(BASE):
     
     
     def load(self, feature, target):
-        if self._config.data_type == 'structured':
+        if self._config.data.data_type == 'structured':
             return feature, target
         else:
             if self._loader:
                 return self._loader(feature, target)
             else:
-                raise self.raise_exception('no_loader')
+                params = {'data_type' : self._config.data.data_type}
+                raise self.exception('no_loader', params)
     
         
     def load_batch(self, mode='train', itertator=0, batch_size=1, shuffle=False):

@@ -1,6 +1,6 @@
 class MODEL_PIPELINE:
     def __init__(self, config=None, data_pipeline=None):
-        self.config = config
+        self._config = config
         self.compile()
 
     def compile(self):

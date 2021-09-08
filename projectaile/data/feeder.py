@@ -1,29 +1,28 @@
 from projectaile.data.loaders import loaders
+from projectaile.utils.base_class import BASE
 
 '''
     FEEDER : FEEDER class for getting batches from the loader
             and feeding them to the model trainer
 '''
-class FEEDER:
+class FEEDER(BASE):
     def __init__(self, config, loader=None):
-        self.config = config
-        self.initialize(loader)
+        self._config = config        
+        super(FEEDER, self).__init__('feeder')
+        self.init_loader(loader)
 	
-    def initialize(self, loader):
+    def init_loader(self, loader):        
         if not loader:
-            loader = self.get_loader(self.config.data.data_type)
-		
-        print('Loader Found : ', loader)
+            loader = self.get_loader(self._config.data.data_type)
+        
         if loader:
+            self.log('Loader Found!')
             self.loader = loader
-            self.loader.initialize(self.config)
+            self.loader.init_loader()
             self.loader.get_data_info()
-        else:
-            raise Exception('No Loader Found For {self.config.data.data_type}!, Please Implement One.')
             
         self.train_iterator = 0
         self.valid_iterator = 0
-        
 
     '''
     get_loader : returns one of default loaders based on the input type in config
@@ -32,7 +31,8 @@ class FEEDER:
         if dtype in loaders.keys():
             return loaders[dtype]
         else:
-            print('No Default Loader Found For Given Data Type! Please Implement A Custom Data Loader Or Look At The Existing Loaders.')
+            params = {'data_type': dtype}
+            self.exception('no_loader', params)
             return None
 
     '''
@@ -52,7 +52,7 @@ class FEEDER:
         x, y, self.train_iterator = self.get_batch(
             'train',
             self.train_iterator,
-            self.config.hyperparameters.train_batch_size,
+            self._config.hyperparameters.train_batch_size,
             shuffle
         )
 
@@ -67,7 +67,7 @@ class FEEDER:
         x, y, self.valid_iterator = self.get_batch(
             'valid',
             self.valid_iterator, 
-            self.config.hyperparameters.valid_batch_size,
+            self._config.hyperparameters.valid_batch_size,
             shuffle
         )
 

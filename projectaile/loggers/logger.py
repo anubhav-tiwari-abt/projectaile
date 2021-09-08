@@ -3,8 +3,10 @@
 '''
 
 import os
+import atexit
 import datetime
 from rich.console import Console
+from rich.traceback import install
 from rich.logging import RichHandler
 from projectaile.utils.exception_handler import EXCEPTION_HANDLER
 
@@ -30,12 +32,9 @@ class LOGGER:
         errors for different engine components.
     '''
 
-    def __init__(self, log_file_path: str = './.logs', log_level: str='DEBUG'):
-        self._log_level = log_level
-        self.log_file = log_file_path
+    def __init__(self):
         self.logger_name = 'base logger'
-
-        self.initialize()
+        self.commit = False
 
     '''
         initializes exception handlers and loggers for 
@@ -49,6 +48,12 @@ class LOGGER:
         rich_exception_handler = RichHandler(rich_tracebacks=True, markup=True)
 
         _possible_loggers = {}
+        
+        # Set exit commit
+        atexit.register(self._exit_commit)
+        
+        # Set Pythons traceback handler
+        install(console=self.console)
 
         # Set python logging logger
         import logging
@@ -78,10 +83,10 @@ class LOGGER:
 
         # TODO : Set pytorch logger
         try:
-            import pytorch
+            import torch
         except Exception as e:
             self.log_warning(
-                f'Tensorflow not installed or tf_logging not found.\
+                f'Pytorch not installed or pytorch_logging not found.\
                 Exception Message : {e}'
             )
 
@@ -91,14 +96,24 @@ class LOGGER:
             try:
                 logger.setLevel(self._log_level)
             except Exception as e:
+                self.log_warning('Couldnt set logging level using setLevel')
                 try:
                     logger.set_level(self._log_level)
                 except Exception as e:
                     self.log_warning(
-                        f'Could not set level for logging in {logger_name} logger'
+                        f'Could not set level for logging in {logger_name} logger, {e}'
                     )
             logger.handlers = [rich_exception_handler]
             self.log_info(f'Setting handler for {logger_name} successful.')        
+    
+    '''
+        set log file path and log level
+    '''
+    def set_params(self, logs_path='logs/', log_level='DEBUG'):
+        self._log_level = log_level
+        self.log_file = (os.path.join(os.getcwd(), logs_path))+'/.logs'
+        self.commit = True
+        self.initialize()
 
     '''
         prints a log to the terminal and saves text to the logs file.
@@ -109,7 +124,8 @@ class LOGGER:
     '''
     def print_log(self, log_message: str):
         self.console.log(log_message)
-        self.commit()
+        if self.commit:
+            self._commit()
 
     '''
         prints a log as info (green text) to the terminal 
@@ -151,18 +167,37 @@ class LOGGER:
                       ):
         exception = self.exception_handler.generate_exception(
             exception_source, exception_name, params)
-        self.print_log(self.exception_logger.exception(exception))
+        self.print_log(exception)
 
     '''
         saves the current data buffer to the text file path saved in self.log_file
     '''
-    def commit(self):
-        self.console.save_text(self.log_file, clear=False)
+    def _commit(self, clear=False):
+        self.console.save_text(self.log_file, clear=clear)
+
+    '''
+        write the commits to timestamped logs file on exit
+    '''
+    def _exit_commit(self):
+        time_stamp = datetime.datetime.now()
+        
+        if self.commit:
+            file_name = self.log_file+'_'+str(time_stamp)\
+                                            .replace(' ', '')\
+                                            .replace('.', '_')\
+                                            .replace(':', '_')
+            self.console.save_text(file_name, clear=True)
+            
+            if os.path.exists(self.log_file):
+                os.remove(self.log_file)
+
+        del self.console
 
     '''
         deletes the current console instance clearing it's record buffer and creates
         a new console instance
     '''
-    def clear_record(self):
+    def _clear_record(self):
+        self._commit()
         del self.console
         self.console = Console(record=True)

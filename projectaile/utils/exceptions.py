@@ -1,47 +1,47 @@
 _EXCEPTION_LIST_ = {
     'default' : {
-        'base_exception' : '[red]Unknown Exception Occured[/] :\n [green]{params}[/]',
+        'base_exception' : '[red]UnknownException[/] : [blue]Unknown Exception Occured[/]\n [green]{params}[/]',
     },
-    'extractor_exceptions' : {
+    'extractor' : {
         
     },
-    'component_exceptions' : {
+    'component' : {
         
     },
-    'callback_exceptions' : {
+    'callback' : {
         
     },
-    'feeder_exceptions' : {
+    'feeder' : {
+        'no_loader' : '[red]LoaderNotImplemented[/] : [blue]No Loader Found For Given Data Type[/]\n[green]Implement a loader function for [yellow]{data_type}[/] data type.[/]'
+    },
+    'loader' : {
+        'no_extractor' : '[red]ExtractorNotImplemented[/] : [green]Could not find a suitable extractor for the interface type : [yellow]{interface_type}[/][/]'
+    },
+    'saver' : {
         
     },
-    'loader_exceptions' : {
-        'no_loader' : '[red]Loader Not Implemented![/] :\n [green]Implement a loader function for [yellow]{data_type}[/] data type.[/]'
-    },
-    'saver_exceptions' : {
+    'model' : {
         
     },
-    'model_exceptions' : {
+    'config' : {
+        'invalid_config' : '[red]InvalidConfig[/] : [green]Config For [yellow]{source}[/] Missing Required Fields [yellow]{missing_fields}[/][/]'
+    },
+    'engine' : {
         
     },
-    'config_exceptions' : {
+    'pipeline' : {
         
     },
-    'engine_exceptions' : {
+    'logger' : {
         
     },
-    'pipeline_exceptions' : {
+    'validator' : {
         
     },
-    'logger_exceptions' : {
+    'exception_handler' : {
         
     },
-    'validator_exceptions' : {
-        
-    },
-    'exception_handler_exceptions' : {
-        
-    },
-    'other_exceptions' : {
+    'other' : {
         
     }
 }
