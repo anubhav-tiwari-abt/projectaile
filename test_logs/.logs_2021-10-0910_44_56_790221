@@ -1,0 +1,53 @@
+[10:44:17] INFO : Initializing Loggers and Handlers...                                                     logger.py:127
+[10:44:38] INFO : Setting handler for python_logging.                                                      logger.py:127
+           INFO : Setting handler for python_logging successful.                                           logger.py:127
+           INFO : Setting handler for tensorflow.                                                          logger.py:127
+           INFO : Setting handler for tensorflow successful.                                               logger.py:127
+           Loader Found!                                                                                   logger.py:127
+           Found Config In Store                                                                           logger.py:127
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ <stdin>:1 in <module>                                                                            │
+│                                                                                                  │
+│ C:\Users\abtex\Desktop\projects\projectaile\projectaile\data\feeder.py:12 in __init__            │
+│                                                                                                  │
+│    9 │   def __init__(self, config, loader=None):                                                │
+│   10 │   │   self._config = config                                                               │
+│   11 │   │   super(FEEDER, self).__init__('feeder')                                              │
+│ ❱ 12 │   │   self.init_loader(loader)                                                            │
+│   13 │                                                                                           │
+│   14 │   def init_loader(self, loader):                                                          │
+│   15 │   │   if not loader:                                                                      │
+│                                                                                                  │
+│ C:\Users\abtex\Desktop\projects\projectaile\projectaile\data\feeder.py:22 in init_loader         │
+│                                                                                                  │
+│   19 │   │   │   self.log('Loader Found!')                                                       │
+│   20 │   │   │   self.loader = loader                                                            │
+│   21 │   │   │   self.loader.init_loader()                                                       │
+│ ❱ 22 │   │   │   self.loader.get_data_info()                                                     │
+│   23 │   │                                                                                       │
+│   24 │   │   self.train_iterator = 0                                                             │
+│   25 │   │   self.valid_iterator = 0                                                             │
+│                                                                                                  │
+│ C:\Users\abtex\Desktop\projects\projectaile\projectaile\data\loader.py:34 in get_data_info       │
+│                                                                                                  │
+│   31 │   │   │   interface_type = self._config.data.dataset.interface_type                       │
+│   32 │   │                                                                                       │
+│   33 │   │   if interface_type in extractors.keys():                                             │
+│ ❱ 34 │   │   │   train_features, valid_features, train_targets, valid_targets = extractors[in    │
+│   35 │   │   else:                                                                               │
+│   36 │   │   │   params = {'interface_type': interface_type}                                     │
+│   37 │   │   │   self.exception('no_extractor', params)                                          │
+│                                                                                                  │
+│ C:\Users\abtex\Desktop\projects\projectaile\projectaile\data\extractors\csv_extractor.py:16 in   │
+│ csv_extractor                                                                                    │
+│                                                                                                  │
+│   13 │                                                                                           │
+│   14 │                                                                                           │
+│   15 │                                                                                           │
+│ ❱ 16 │   return train_features, valid_features, train_targets, valid_targets                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'train_features' is not defined
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ <stdin>:1 in <module>                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'feeder' is not defined

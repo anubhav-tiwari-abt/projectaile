@@ -11,7 +11,7 @@ data:
         interface_val : 'image_path'
         load_type : ['jpg', 'png', 'jpeg']
       targets :
-        interface_type : 'column'
+        interface_type : 'regex'
         interface_val : '[image_path]_mask'
         load_type : ['jpg', 'png', 'jpeg']
     valid :
