@@ -21,14 +21,14 @@ def get_version(module):
     return version
 
 
-def get_alias(global_modules, module):
+def get_alias(module):
+    global_modules = globals()
     alias = ''
     original_name = module.__name__
 
     for modules in global_modules:
         if isinstance(global_modules[modules], types.ModuleType):
             if global_modules[modules].__name__ == original_name:
-                print('Found : ', modules, original_name)
                 alias = modules
                 return alias
 
@@ -36,13 +36,12 @@ def get_alias(global_modules, module):
 
 
 def get_modules(only_imported=False):
-    global_modules = globals()
     if only_imported:
         imported_modules = sys.modules
         imported = {}
         for module in imported_modules:
             version = get_version(imported_modules[module])
-            alias = get_alias(global_modules, imported_modules[module])
+            alias = get_alias(imported_modules[module])
             imported[module] = {'version': version, 'alias': alias}
         return imported
 
