@@ -10,7 +10,7 @@ from rich.traceback import install
 from rich.logging import RichHandler
 from rich import inspect as rich_inspect
 from projectaile.utils.exception_handler import EXCEPTION_HANDLER
-
+from pyinstrument import Profiler
 
 '''
     LOGGER : logger class for creating a log file.
@@ -44,6 +44,7 @@ class LOGGER:
     def initialize(self):
         self.console = Console(record=True)
         self.exception_handler = EXCEPTION_HANDLER()
+        self.profiler = Profiler()
         
         self.log_info('Initializing Loggers and Handlers...')
         rich_exception_handler = RichHandler(rich_tracebacks=True, markup=True)

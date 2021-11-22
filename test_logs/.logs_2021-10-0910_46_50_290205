@@ -1,0 +1,11 @@
+[10:45:54] INFO : Initializing Loggers and Handlers...                                                     logger.py:127
+[10:45:59] INFO : Setting handler for python_logging.                                                      logger.py:127
+           INFO : Setting handler for python_logging successful.                                           logger.py:127
+           INFO : Setting handler for tensorflow.                                                          logger.py:127
+           INFO : Setting handler for tensorflow successful.                                               logger.py:127
+           Loader Found!                                                                                   logger.py:127
+           Found Config In Store                                                                           logger.py:127
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ <stdin>:1 in <module>                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'loader' is not defined

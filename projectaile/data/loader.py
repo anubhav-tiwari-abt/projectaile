@@ -3,6 +3,14 @@ from functools import wraps
 from projectaile.utils.base_class import BASE
 from projectaile.data.extractors import extractors
 
+
+'''
+    LOADER class, acts as a base class for different types of loaders.
+    different loaders like image, audio, text etc. can be decorated to act
+    as loader functions and can be called from this class to generate batches
+    and feed to the feeder, which then feeds to the data pipeline,
+    where preprocessing an augmentations can be applied.
+'''
 class LOADER(BASE):
     def __init__(self, loader_function):
         self._loader = loader_function
@@ -36,7 +44,10 @@ class LOADER(BASE):
         self.valid_targets = valid_targets
         self.valid_indices = np.arange(0, len(valid_features))
     
-    
+    '''
+        load a single example using the feature and target
+        value at current index.
+    '''
     def load(self, feature, target):
         if self._config.data.data_type == 'structured':
             return feature, target
@@ -47,7 +58,10 @@ class LOADER(BASE):
                 params = {'data_type' : self._config.data.data_type}
                 raise self.exception('no_loader', params)
     
-        
+    '''
+        load a batch of size batch_size and update the iterator 
+        for next batch
+    '''
     def load_batch(self, mode='train', itertator=0, batch_size=1, shuffle=False):
         if mode == 'train':
             indices = self.train_indices
@@ -72,7 +86,7 @@ class LOADER(BASE):
                 x.append(feature)
                 y.append(target)
             except Exception as e:
-                print(e)
+                self.exception('load_failed', e)
                 return None, None, iterator
         
         iterator += 1

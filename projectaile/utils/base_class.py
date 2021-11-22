@@ -91,3 +91,10 @@ class BASE:
     def exception(self, exception, params={}):
         params = params or locals()
         return self._logger.log_exception(self._source, exception, params)
+    
+    '''
+        Run The Operation
+    '''
+    def run(self):
+        pass
+    
