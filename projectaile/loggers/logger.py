@@ -8,6 +8,7 @@ import datetime
 from rich.console import Console
 from rich.traceback import install
 from rich.logging import RichHandler
+from rich import inspect as rich_inspect
 from projectaile.utils.exception_handler import EXCEPTION_HANDLER
 
 
@@ -168,7 +169,11 @@ class LOGGER:
         exception = self.exception_handler.generate_exception(
             exception_source, exception_name, params)
         self.print_log(exception)
-
+        
+    '''
+    '''
+    def inspect(self, entity, methods=True):
+        rich_inspect(entity, methods=methods, console=self.console, help=True)
     '''
         saves the current data buffer to the text file path saved in self.log_file
     '''
