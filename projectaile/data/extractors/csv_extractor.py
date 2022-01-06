@@ -58,7 +58,7 @@ def csv_extractor(config):
 
             if _col_exists:
                 train_df = train_df[1:]
-#insert valid config check here
+        #insert valid config check here
         with open(valid_config.interface_path, 'r') as f:
             valid_df = f.readlines()
 
