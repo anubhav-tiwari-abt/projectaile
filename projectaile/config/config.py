@@ -1,4 +1,3 @@
-import json
 import yaml
 from yaml import Loader, Dumper
 

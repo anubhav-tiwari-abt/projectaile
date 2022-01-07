@@ -1,4 +1,4 @@
-from projectaile.utils.extractor_utils import resolve_csv
+from .extractor_utils import resolve_csv
 '''
     extract features and targets list from the csv
 '''
