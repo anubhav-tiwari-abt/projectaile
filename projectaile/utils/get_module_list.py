@@ -26,11 +26,11 @@ def get_alias(module):
     alias = ''
     original_name = module.__name__
 
-    for modules in global_modules:
-        if isinstance(global_modules[modules], types.ModuleType):
-            if global_modules[modules].__name__ == original_name:
+    for module_name in global_modules:
+        if isinstance(global_modules[module_name], types.ModuleType):
+            if global_modules[module_name].__name__ == original_name:
                 alias = modules
-                return alias
+                break
 
     return alias
 
